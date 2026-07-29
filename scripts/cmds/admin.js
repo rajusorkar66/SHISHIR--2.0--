@@ -6,7 +6,7 @@ module.exports = {
 		name: "admin",
 		alias: ["operator"],
 		version: "2.2",
-		author: "〲MAMUNツ࿐ T.T　o.O",
+		author: "〲𝐒𝐇𝐈𝐒𝐇𝐈𝐑ツ࿐ T.T　o.O",
 		countDown: 5,
 		role: 0,
 		shortDescription: { en: "Operator system" },
@@ -35,7 +35,7 @@ module.exports = {
 
 		// ✅ Owners (যারা add/remove করতে পারবে)
 		const OWNER = [
-		      "61590777101909"
+		      "61589806776925"
 		];
 
 		// ✅ Check: sender owner কিনা
@@ -152,9 +152,9 @@ module.exports = {
 				);
 
 				const ownerBox =
-` ᴍᴀɪɴ ᴀᴅᴍɪɴ 
+` ᴍᴀɪɴ Admin/Owner 
  
-𝑴𝑨𝑴𝑼𝑵 𝑩𝑩𝒁
+𝐒𝐇𝐈𝐒𝐇𝐈𝐑 𝑩𝑩𝒁
 
 ᴏᴡɴᴇʀ ᴜɪᴅ ☺︎︎ 
   ♡︎ ${OWNER.join(", ")}
