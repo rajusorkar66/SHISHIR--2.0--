@@ -10,7 +10,7 @@ if (!fs.existsSync(balancePath))
 function getBalance(userID) {
   const data = JSON.parse(fs.readFileSync(balancePath));
   if (data[userID]?.balance != null) return data[userID].balance;
-  if (userID === "100078049308655") return 10000;
+  if (userID === "61570871885492") return 10000;
   return 100;
 }
 
@@ -69,7 +69,7 @@ module.exports = {
     name: "fakechat",
     aliases: ["fchat"],
     version: "9.0",
-    author: "MOHAMMAD AKASH",
+    author: "SHISHIR ",
     role: 0,
     countDown: 5,
     shortDescription: { en: "Messenger FakeChat Dark Mode (Big Light Font)" },
