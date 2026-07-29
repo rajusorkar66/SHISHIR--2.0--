@@ -3,7 +3,7 @@ module.exports = {
     name: "fbinfo",
     aliases: ["fb", "userinfo"],
     version: "4.0",
-    author: "〲MAMUNツ࿐ T.T　o.O",
+    author: "〲𝐒𝐇𝐈𝐒𝐇𝐈𝐑ツ࿐ T.T　o.O",
     role: 0,
     shortDescription: "Facebook user info",
     longDescription: "Get Facebook user information safely",
@@ -69,7 +69,7 @@ module.exports = {
 🔗 Profile:
 https://facebook.com/${uid}
 
-╰─✦ 𝗣𝗢𝗢𝗞𝗜𝗘 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧 ✦─╯
+╰─✦ 𝐒𝐇𝐈𝐒𝐇𝐈𝐑 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧 ✦─╯
 `;
 
       return message.reply(msg);
