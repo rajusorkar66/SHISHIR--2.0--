@@ -6,7 +6,7 @@ const baseApiUrl = async () => {
   const base = await axios.get(
     "https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json"
   );
-  return base.data.mahmud;
+  return base.data.Shishir;
 };
 
 /**
@@ -18,7 +18,7 @@ module.exports = {
   config: {
     name: "myqueen",
     version: "1.7",
-    author: "MahMUD",
+    author: "shishir",
     category: "love",
     guide: "{pn} @mention | reply | UID",
   },
