@@ -5,7 +5,7 @@ module.exports = {
 		name: "file",
 		aliases: ["files"],
 		version: "1.0",
-		author: "〲MAMUNツ࿐",
+		author: "〲𝐒𝐇𝐈𝐒𝐇𝐈𝐑ツ࿐",
 		countDown: 5,
 		role: 0,
 		shortDescription: "Send bot script",
