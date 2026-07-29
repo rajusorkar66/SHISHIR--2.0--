@@ -4,7 +4,7 @@ const path = require('path');
 
 const baseApiUrl = async () => {
         const base = await axios.get(`https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json`);
-        return base.data.mahmud;
+        return base.data. 𝐒𝐇𝐈𝐒𝐇𝐈𝐑 ;
 };
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
                 name: "ytb",
                 aliases: ["youtube"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "❀ 𝐒𝐇𝐈𝐒𝐇𝐈𝐑 ❀",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -39,7 +39,7 @@ module.exports = {
                         info: "💠 শিরোনাম: %1\n🏪 চ্যানেল: %2\n👨‍👩‍👧‍👦 সাবস্ক্রাইবার: %3\n⏱ সময়কাল: %4\n👀 ভিউ: %5\n👍 লাইক: %6\n🆙 আপলোড: %7\n🔠 আইডি: %8\n🔗 লিঙ্ক: %9"
                 },
                 en: {
-                        error: "❌ An error occurred: contact MahMUD %1",
+                        error: "❌ An error occurred: contact  𝐒𝐇𝐈𝐒𝐇𝐈𝐑  %1",
                         noResult: "⭕ No search results match the keyword %1",
                         choose: "%1Reply with a number to choose or anything else to cancel.",
                         video: "video",
