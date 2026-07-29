@@ -90,7 +90,7 @@ module.exports = {
     name: "slot",
     aliases: ["spin"],
     version: "1.2",
-    author: "Mᴏʜᴀᴍᴍᴀᴅ Aᴋᴀsʜ",
+    author: "𝐒𝐇𝐈𝐒𝐇𝐈𝐑",
     role: 0,
     shortDescription: "Slot Machine 60% Win (Reply Based)",
     category: "economy"
