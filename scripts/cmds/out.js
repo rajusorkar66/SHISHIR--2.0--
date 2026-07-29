@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: "out",
     version: "2.0",
-    author: "MOHAMMAD AKASH",
+    author: "shishir",
     countDown: 5,
     role: 2,
     shortDescription: "বটকে গ্রুপ থেকে বের করে দেওয়া",
@@ -18,7 +18,8 @@ module.exports = {
     const targetThread = args[0] || event.threadID;
 
     try {
-      await api.sendMessage("👋 আলবিদা সবাই! আমি এখন গ্রুপ থেকে বের হচ্ছি...", targetThread);
+      await api.sendMessage("👋 -শিশির বস থাকো আমার বের করে দিলা তো মনে কষ্ট পাইলাম "! 😄
+ভালো থাকিস এদের খেয়াল রাখিস" ভাবি এর খেয়াল রাখিস! 😅😅...", targetThread);
       await api.removeUserFromGroup(botID, targetThread);
     } catch (error) {
       console.error(error);
