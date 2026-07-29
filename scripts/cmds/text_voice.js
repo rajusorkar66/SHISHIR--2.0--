@@ -6,7 +6,7 @@ module.exports = {
   config: {
     name: "text_voice",
     version: "1.0.0",
-    author: "Sᴀʜᴜ x Mᴏʜᴀᴍᴍᴀᴅ Aᴋᴀsʜ",
+    author: "𝐒𝐇𝐈𝐒𝐇𝐈𝐑",
     countDown: 5,
     role: 0,
     shortDescription: "Tᴇxᴛ Tᴏ Vᴏɪᴄᴇ Rᴇᴘʟʏ",
