@@ -5,7 +5,7 @@ module.exports = {
         name: "notification2",
         aliases: ["notify2", "noti2"],
         version: "2.4",
-        author: "Rasel Mahmud",
+        author: "𝐒𝐇𝐈𝐒𝐇𝐈𝐑",
         countDown: 5,
         role: 2,
         description: "Send stylish notification to all groups and forward replies to admin",
@@ -29,7 +29,7 @@ module.exports = {
         if (!args[0]) return message.reply(getLang("missingMessage"));
 
         const adminID = envCommands[this.config.name].adminID;
-        const senderName = "亗🅼🅰ᥫᩣ🅼ᥫᩣ🆄🅽×͜×";
+        const senderName = "亗𝐒𝐇𝐈𝐒𝐇𝐈𝐑×͜×";
 
         const allThreads = (await threadsData.getAll()).filter(t => t.isGroup);
 
