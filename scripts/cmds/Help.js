@@ -67,7 +67,7 @@ module.exports = {
       👑 𝐎𝐖𝐍𝐄𝐑 👑
    『𝐀𝐡𝐦𝐞𝐃’𝐬 𝐒𝐇𝐢'𝐬𝐡𝐢𝐫』
 ╚═══════❖═══════╝
-🌸❀━━━━━━━━━━━━❀🌸\n├‣ WHATSAPP\n╰‣ 01830981279`;
+🌸❀━━━━━━━━━━━━❀🌸\n├‣ WHATSAPP\n╰‣ 017493---26`;
 
                         try {
                                 const hh = await message.reply({ body: msg });
