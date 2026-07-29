@@ -6,7 +6,7 @@ const baseApiUrl = async () => {
   const base = await axios.get(
     "https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json"
   );
-  return base.data.mahmud;
+  return base.data.𝗦𝗛𝗜𝗦𝗛𝗜𝗥;
 };
 
 /**
@@ -18,7 +18,7 @@ module.exports = {
   config: {
     name: "myking",
     version: "1.7",
-    author: "MahMUD",
+    author: "shishir",
     category: "love",
     guide: "{pn} @mention | reply | UID",
   },
@@ -74,7 +74,7 @@ module.exports = {
         event.messageID
       );
     } catch (err) {
-      api.sendMessage("🥹error, contact MahMUD." + err.message, event.threadID, event.messageID);
+      api.sendMessage("🥹error, contact 𝗦𝗛𝗜𝗦𝗛𝗜𝗥." + err.message, event.threadID, event.messageID);
     }
   },
 };
