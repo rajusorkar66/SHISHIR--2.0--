@@ -2,7 +2,7 @@ module.exports = {
  config: {
  name: "fork",
  version: "1.6",
- author: "〲MAMUNツ࿐",
+ author: "〲𝗦𝗛𝗜𝗦𝗛𝗜𝗥ツ࿐",
  countDown: 2,
  role: 0,
  shortDescription: "Official GitHub Fork",
@@ -18,15 +18,15 @@ module.exports = {
  ✦━━━━━━━━━✦
 👑 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗙𝗢𝗥𝗞 👑
 ✦━━━━━━━━━✦
-👑 𝗢𝗪𝗡𝗘𝗥 ➜ 𝗠𝗔𝗠𝗨𝗡
-🤖 𝗕𝗢𝗧 ➜ 𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟮
+👑 𝗢𝗪𝗡𝗘𝗥 ➜ 𝗦𝗛𝗜𝗦𝗛𝗜𝗥
+🤖 𝗕𝗢𝗧 ➜ 𝗦𝗛𝗜𝗦𝗛𝗜𝗥 𝗕𝗢𝗧 𝗩𝟮
 ━━━━━━━━━━━
 🌐 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗚𝗜𝗧𝗛𝗨𝗕
-🔗 https://github.com/MAMUN-GOAT-BOT/V2-.git
+🔗 -তোমার নানির সাওয়া fork মারাইছিস ! Fork আসে শিশিরের প্যান্টের নিচে যা একটু দেখে আয় -😆
 ━━━━━━━━━━━
-🎥 𝗩𝗜𝗗𝗘𝗢 𝗧𝗨𝗧𝗢𝗥𝗜𝗔𝗟 📺 https://youtu.be/_Qb7Pq0Xavs?si=-MaOtPPnBPVSbIFX
+🎥 𝗩𝗜𝗗𝗘𝗢 𝗧𝗨𝗧𝗢𝗥𝗜𝗔𝗟 📺 https:ভিডিও মারাস যা google এ যা গিয়ে সানি লিওনের একটা দেখ -😄😄
 ━━━━━━━━━━
-𝗠𝗔𝗠𝗨𝗡 𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟮
+𝗦𝗛𝗜𝗦𝗛𝗜𝗥 𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟮
 ✦━━━━━━━━━✦
 `
  }
