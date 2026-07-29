@@ -36,7 +36,7 @@ module.exports = {
 
     if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
-    const imgLink = "https://vt.tiktok.com/ZS4Lgb7LM/";
+    const imgLink = "https://vt.tiktok.com/ZS4LpuRRB/Z";
 
     const send = () => {
       api.sendMessage(
