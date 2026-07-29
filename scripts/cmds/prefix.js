@@ -5,7 +5,7 @@ module.exports = {
   config: {
     name: "prefix",
     version: "2.4",
-    author: "MAMUN",
+    author: "𝐒𝐇𝐈𝐒𝐇𝐈𝐑",
     countDown: 5,
     role: 0,
     description: "Change & show bot prefix",
@@ -102,7 +102,7 @@ module.exports = {
 ┃ ☯️ GROUP  : 『 ${groupPrefix} 』
 ┃ 💠 TIME   : ${time}
 ┃ ⚠️ DATE   : ${date}
-┃ Ⓜ️ OWNER  : ${owner}
+┃ Ⓜ️ OWNER  : ${𝐒𝐇𝐈𝐒𝐇𝐈𝐑}
 ╰━━━〔 ✨ ×͜× 〕━━━╯`
     );
   }
