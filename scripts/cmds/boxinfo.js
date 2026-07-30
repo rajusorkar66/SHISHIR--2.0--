@@ -7,7 +7,7 @@ module.exports = {
     name: "boxinfo",
     aliases: ["groupinfo"],
     version: "2.2.0",
-    author: "Mᴏʜᴀᴍᴍᴀᴅ Aᴋᴀsʜ",
+    author: "shishir",
     role: 1,
     shortDescription: "Group info",
     category: "box chat",
@@ -43,7 +43,7 @@ Fᴇᴍᴀʟᴇ    : ${female}
 Aᴅᴍɪɴs    : ${info.adminIDs.length}
 Mᴇssᴀɢᴇs  : ${info.messageCount}
 
-— ᰔᩚ𝙈𝘼...𝙈...𝙐𝙉✿`;
+— ᰔᩚ owner:𝑨𝑯𝑴𝑬𝑫 𝑺𝑯𝑰𝑺𝑯𝑰𝑹 ✿`;
 
     const send = () =>
       api.sendMessage(
