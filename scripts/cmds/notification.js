@@ -60,8 +60,8 @@ module.exports = {
     }
 
     
-    const owner = "×᷼×ＭＡ☂Ｍ☂ＵＮ☆"; 
-    const fb = "MA M UN Bb'z";
+    const owner = "𝑨𝑯𝑴𝑬𝑫 𝑺𝑯𝑰𝑺𝑯𝑰𝑹 ☆"; 
+    const fb = "yuzaki  Bb'z";
 
     
     const formSend = {
