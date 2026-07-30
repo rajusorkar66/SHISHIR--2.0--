@@ -48,7 +48,7 @@ module.exports = {
 🤖 Bot Name: ${global.GoatBot.config.nickNameBot}
 👾 Prefix: ${global.GoatBot.config.prefix}
 
-💙 Owner Name: ${𝐒𝐇𝐈𝐒𝐇𝐈𝐑}
+💙 Owner Name: ${shishir}
 📝 Age: ${17+}
 💕 Relationship: ${Single }
 
@@ -58,7 +58,7 @@ module.exports = {
 🗓 Date: ${date}
 ⏰ Time: ${time}
 
-🔰 Contact Owner: ${https://www.facebook.com/share/1EqFEbWRbh/}
+🔰 Contact Owner: ${Yuzaki /}
 📛 Bot Uptime: ${uptimeString}
 
 ==============================`;
