@@ -5,7 +5,7 @@ module.exports = {
     name: "ffinfo",
     aliases: ["freefireinfo", "ffstats"],
     version: "2.1.0",
-    author: "Dipto ✚ Edit by Mᴏʜᴀᴍᴍᴀᴅ Aᴋᴀsʜ",
+    author: "Dipto ✚ Edit by AHMƐƊ SHISHIR ",
     role: 0,
     premium: false,
     description: "Show complete Free Fire player info with styled output",
@@ -109,7 +109,7 @@ ${social.signature
           : "N/A"
       }
 
-✨ Powered by ᰔᩚ𝙈𝘼...𝙈...𝙐𝙉✿
+✨ Powered by ᰔᩚAHMƐƊ SHISHIR ✿
 `;
 
       await api.editMessage(msg, wait.messageID);
