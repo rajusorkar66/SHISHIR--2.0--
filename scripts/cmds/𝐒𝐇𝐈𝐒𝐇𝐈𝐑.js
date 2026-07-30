@@ -1,6 +1,6 @@
 module.exports = {
   config: {
-      name: "mamun",
+      name: "shishir",
           version: "1.0.4",
               author: "〲𝐒𝐇𝐈𝐒𝐇𝐈𝐑ツ࿐ T.T　o.O",
                   role: 0,
