@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: "protect",
     version: "1.2",
-    author: "MOHAMMAD AKASH",
+    author: "Ahmed shishir",
     role: 1,
     shortDescription: "Lock group name, nickname, theme, emoji",
     category: "group",
