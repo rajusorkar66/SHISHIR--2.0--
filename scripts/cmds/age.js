@@ -5,7 +5,7 @@ module.exports = {
     name: "age",
     aliases: ["myage"],
     version: "6.0",
-    author: "𝐌𝐨𝐡𝐚ᴍᴍᴀᴅ 𝐀ᴋᴀsʜ",
+    author: "𝑆𝐻𝐼𝑆𝐻𝐼𝑅 ",
     role: 0,
     category: "AI",
     guide: "age <YYYY | DD/MM/YYYY | D Month YYYY | D/Month/YYYY>",
@@ -16,7 +16,7 @@ module.exports = {
     try {
       if (!args.length) {
         return api.sendMessage(
-          "⚠️ Uꜱᴇ:\n• age 2007\n• age 01/05/2007\n• age 3 May 2007\n• age 3/may/2007",
+          "⚠️ Uꜱᴇ:\n• age 2008\n• age 017/05/2008\n• age 5 May 2008\n• age 5/may/2007",
           event.threadID
         );
       }
@@ -64,7 +64,7 @@ module.exports = {
 
       else {
         return api.sendMessage(
-          "❌ Fᴏʀᴍᴀᴛ ভুল\n✔ age 2007\n✔ age 01/05/2007\n✔ age 3 May 2007\n✔ age 3/may/2007",
+          "❌ Fᴏʀᴍᴀᴛ ভুল\n✔ age 2007\n✔ age 01/05/2007\n✔ age 3 May 2007\n✔ age 3/may/2008",
           event.threadID
         );
       }
