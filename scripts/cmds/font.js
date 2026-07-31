@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: "font",
     version: "6.3.0",
-    author: "〲MAMUNツ࿐",
+    author: "〲shishirツ࿐",
     role: 0,
     category: "utility",
     description: "Clean font system"
@@ -39,7 +39,7 @@ module.exports = {
     };
 
     const preview = (arr) =>
-      "Mamun".split("").map(c => {
+      "Shishir".split("").map(c => {
         const i = normal.indexOf(c.toLowerCase());
         return i !== -1 ? arr[i] : c;
       }).join("");
@@ -70,13 +70,13 @@ module.exports = {
 19 = Double Bold→ ${preview(fonts[19])}
 20 = Old Frak   → ${preview(fonts[20])}
 
-Use: font 1 Mamun`,
+Use: font 1 Shishir`,
         event.threadID
       );
     }
 
     if (!type || !text) {
-      return api.sendMessage("Use: font list OR font 1 Mamun", event.threadID);
+      return api.sendMessage("Use: font list OR font 1 Shishir", event.threadID);
     }
 
     const selected = fonts[type];
