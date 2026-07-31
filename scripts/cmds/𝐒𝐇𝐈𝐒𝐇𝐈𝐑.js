@@ -13,7 +13,7 @@ module.exports = {
   onStart: async function () {},
   onChat: async function ({ api, event }) {
       const msg = event.body?.toLowerCase();
-          if (!msg || msg !== "𝐒𝐇𝐈𝐒𝐇𝐈𝐑") return;
+          if (!msg || msg !== "shishir") return;
     const profileText = 
     `⏤͟͟͞͞𝐒𝐇𝐈𝐒𝐇𝐈𝐑  𝗜𝗡𝗙𝗢 ☺︎
  ⏤͟͟͞͞☺︎ ┏━━━━━━━━━━━━━━━
