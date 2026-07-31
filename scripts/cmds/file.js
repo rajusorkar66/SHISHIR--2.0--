@@ -15,9 +15,9 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, args, api, event }) {
-		const permission = ["61590777101909", "61590777101909",];
+		const permission = ["61589806776925", "61570871885492",];
 		if (!permission.includes(event.senderID)) {
-			return api.sendMessage(" khankir chele ja vaggg bot ki tor baper 🥵💦", event.threadID, event.messageID);
+			return api.sendMessage(" Boss SHISHIR!! (dekho awi khankir sele faile nite aise ore xude dibo naki aktu bolen boss!xudanir pola 🥵💦", event.threadID, event.messageID);
 		}
 
 		const fileName = args[0];
