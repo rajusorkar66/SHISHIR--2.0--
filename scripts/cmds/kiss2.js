@@ -4,9 +4,9 @@ const path = require("path");
 
 const baseApiUrl = async () => {
   const base = await axios.get(
-    "https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json"
+    "https://raw.githubusercontent.com/shishirx7/HINATA/main/baseApiUrl.json"
   );
-  return base.data.mahmud;
+  return base.data.shishir;
 };
 
 /**
@@ -19,7 +19,7 @@ module.exports = {
     name: "kiss2",
     aliases: ["k2"],
     version: "1.7",
-    author: "MahMUD",
+    author: "shishir",
     role: 0,
     category: "fun",
     cooldown: 8,
