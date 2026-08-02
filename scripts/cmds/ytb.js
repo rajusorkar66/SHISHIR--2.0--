@@ -1,27 +1,27 @@
-("use strict";
+"use strict";
 
 const path  = require("path");
 const fs    = require("fs-extra");
 const axios = require("axios");
 
-const SIFAT_CDTESE = "https://raw.githubusercontent.com/MYB-SIFAT/SIFATChudtese/refs/heads/main/sifatapichudtese.json";
+const Shishir_CDTESE = "https://raw.githubusercontent.com/MYB-SIFAT/SIFATChudtese/refs/heads/main/sifatapichudtese.json";
 const SIFAT_SXY    = "";
 
-let SIFAT = process.env.SIFU_API_BASE ? process.env.SIFU_API_BASE.replace(/\/+$/, "") : null;
+let Shishir = process.env.Shishir_API_BASE ? process.env.Shishir_API_BASE.replace(/\/+$/, "") : null;
 const DHON = (async () => {
-    if (SIFAT) return;
+    if (Shishir) return;
     try {
-        const r = await axios.get(SIFAT_CDTESE, { timeout: 6000 });
+        const r = await axios.get(Shishir_CDTESE, { timeout: 6000 });
         const u = r.data?.music;
-        if (u && u.startsWith("http")) SIFAT = u.replace(/\/+$/, "");
+        if (u && u.startsWith("http")) Shishir = u.replace(/\/+$/, "");
     } catch {}
-    if (!SIFAT) SIFAT = SIFAT_SXY;
+    if (!Shishir) Shishir = Shishir_SXY;
 })();
 const getSIFAT = async () => { await DHON; return SIFAT; };
 
-const TMO   = parseInt(process.env.SIFU_TIMEOUT_MS || "180000", 10);
-const MAXMB = parseFloat(process.env.SIFU_MAX_MB   || "25");
-const TTL   = parseInt(process.env.SIFU_CACHE_TTL  || String(3600_000), 10);
+const TMO   = parseInt(process.env.shishir_TIMEOUT_MS || "180000", 10);
+const MAXMB = parseFloat(process.env.SIishir_MAX_MB   || "25");
+const TTL   = parseInt(process.env.SIshir_CACHE_TTL  || String(3600_000), 10);
 const DIR   = path.join(__dirname, "cache");
 
 const QUALITIES  = ["240", "360", "480", "720", "1080"];
@@ -32,7 +32,7 @@ const RETRY_CODES = new Set(["ECONNRESET","ETIMEDOUT","ECONNABORTED","EAI_AGAIN"
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function get(p, params) {
-    const api = await getSIFAT();
+    const api = await getShishir();
     for (let i = 0; i < 3; i++) {
         try { return (await axios.get(api + p, { params, timeout: TMO, validateStatus: s => s < 300 })).data; }
         catch (e) {
@@ -44,7 +44,7 @@ async function get(p, params) {
 }
 
 async function stream(p, params) {
-    const api = await getSIFAT();
+    const api = await getShishir();
     for (let i = 0; i < 3; i++) {
         try { return await axios.get(api + p, { params, timeout: TMO, responseType: "stream", validateStatus: s => s < 300 }); }
         catch (e) {
