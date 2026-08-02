@@ -1,187 +1,215 @@
+("use strict";
+
+const path  = require("path");
+const fs    = require("fs-extra");
 const axios = require("axios");
-const fs = require('fs-extra');
-const path = require('path');
 
-const baseApiUrl = async () => {
-        const base = await axios.get(`https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json`);
-        return base.data. 𝐒𝐇𝐈𝐒𝐇𝐈𝐑 ;
-};
+const SIFAT_CDTESE = "https://raw.githubusercontent.com/MYB-SIFAT/SIFATChudtese/refs/heads/main/sifatapichudtese.json";
+const SIFAT_SXY    = "";
 
-module.exports = {
-        config: {
-                name: "ytb",
-                aliases: ["youtube"],
-                version: "1.7",
-                author: "❀ 𝐒𝐇𝐈𝐒𝐇𝐈𝐑 ❀",
-                countDown: 5,
-                role: 0,
-                description: {
-                        bn: "ইউটিউব থেকে ভিডিও, অডিও ডাউনলোড বা তথ্য দেখুন",
-                        en: "Download video, audio or view video information from YouTube",
-                        vi: "Tải video, audio hoặc xem thông tin video trên YouTube"
-                },
-                category: "media",
-                guide: {
-                        bn: '   {pn} video [নাম/লিঙ্ক]: ভিডিও ডাউনলোড করতে\n   {pn} audio [নাম/লিঙ্ক]: অডিও ডাউনলোড করতে\n   {pn} info [নাম/লিঙ্ক]: ভিডিওর তথ্য দেখতে\n   উদাহরণ:\n   {pn} -v Mood Lofi\n   {pn} -a Mood Lofi',
-                        en: '   {pn} [video|-v] [name|link]: download video\n   {pn} [audio|-a] [name|link]: download audio\n   {pn} [info|-i] [name|link]: view details',
-                        vi: '   {pn} [video|-v] [tên|link]: tải video\n   {pn} [audio|-a] [tên|link]: tải audio\n   {pn} [info|-i] [tên|link]: xem thông tin'
-                }
-        },
+let SIFAT = process.env.SIFU_API_BASE ? process.env.SIFU_API_BASE.replace(/\/+$/, "") : null;
+const DHON = (async () => {
+    if (SIFAT) return;
+    try {
+        const r = await axios.get(SIFAT_CDTESE, { timeout: 6000 });
+        const u = r.data?.music;
+        if (u && u.startsWith("http")) SIFAT = u.replace(/\/+$/, "");
+    } catch {}
+    if (!SIFAT) SIFAT = SIFAT_SXY;
+})();
+const getSIFAT = async () => { await DHON; return SIFAT; };
 
-        langs: {
-                bn: {
-                        error: "❌ সমস্যা হয়েছে: contact MahMUD %1",
-                        noResult: "⭕ দুঃখিত বেবি, \"%1\" এর জন্য কিছু খুঁজে পাইনি।",
-                        choose: "%1যা ডাউনলোড করতে চান তার নাম্বার লিখে রিপ্লাই দিন।",
-                        video: "ভিডিও",
-                        audio: "অডিও",
-                        downloading: "⬇️ আপনার কাঙ্ক্ষিত %1 \"%2\" ডাউনলোড হচ্ছে...",
-                        info: "💠 শিরোনাম: %1\n🏪 চ্যানেল: %2\n👨‍👩‍👧‍👦 সাবস্ক্রাইবার: %3\n⏱ সময়কাল: %4\n👀 ভিউ: %5\n👍 লাইক: %6\n🆙 আপলোড: %7\n🔠 আইডি: %8\n🔗 লিঙ্ক: %9"
-                },
-                en: {
-                        error: "❌ An error occurred: contact  𝐒𝐇𝐈𝐒𝐇𝐈𝐑  %1",
-                        noResult: "⭕ No search results match the keyword %1",
-                        choose: "%1Reply with a number to choose or anything else to cancel.",
-                        video: "video",
-                        audio: "audio",
-                        downloading: "⬇️ Downloading %1 \"%2\"",
-                        info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Duration: %4\n👀 Views: %5\n👍 Likes: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9"
-                },
-                vi: {
-                        error: "❌ Đã xảy ra lỗi: contact MahMUD %1",
-                        noResult: "⭕ Không có kết quả tìm kiếm cho %1",
-                        choose: "%1Reply tin nhắn với số để chọn hoặc nội dung bất kì để gỡ",
-                        video: "video",
-                        audio: "âm thanh",
-                        downloading: "⬇️ Đang tải xuống %1 \"%2\"",
-                        info: "💠 Tiêu đề: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Thời gian: %4\n👀 Lượt xem: %5\n👍 Lượt thích: %6\n🆙 Ngày tải: %7\n🔠 ID: %8\n🔗 Link: %9"
-                }
-        },
+const TMO   = parseInt(process.env.SIFU_TIMEOUT_MS || "180000", 10);
+const MAXMB = parseFloat(process.env.SIFU_MAX_MB   || "25");
+const TTL   = parseInt(process.env.SIFU_CACHE_TTL  || String(3600_000), 10);
+const DIR   = path.join(__dirname, "cache");
 
-        onStart: async function ({ api, args, message, event, commandName, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-                
-                const { threadID, messageID, senderID } = event;
-                let type;
+const QUALITIES  = ["240", "360", "480", "720", "1080"];
+const DEF_Q      = "360";
+const FALLBACK_Q = ["360", "240"];
 
-                switch (args[0]) {
-                        case "-v": case "video": type = "video"; break;
-                        case "-a": case "-s": case "audio": case "sing": type = "audio"; break;
-                        case "-i": case "info": type = "info"; break;
-                        default: return message.reply(`• Usage: ${this.config.guide[getLang.name]}`);
-                }
+const RETRY_CODES = new Set(["ECONNRESET","ETIMEDOUT","ECONNABORTED","EAI_AGAIN","ENETUNREACH","EPIPE"]);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-                const input = args.slice(1).join(" ");
-                if (!input) return api.sendMessage("• Please provide a song name or link baby! 😘", threadID, messageID);
-
-                const apiUrl = await baseApiUrl();
-                const checkurl = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))((\w|-){11})(?:\S+)?$/;
-                
-                if (checkurl.test(input)) {
-                        const videoID = input.match(checkurl)[1];
-                        api.setMessageReaction("⌛", messageID, () => {}, true);
-                        if (type === 'info') return fetchInfo(api, threadID, messageID, videoID, apiUrl, getLang);
-                        return handleDownload(api, threadID, messageID, videoID, type, apiUrl, getLang);
-                }
-
-                try {
-                        api.setMessageReaction("😘", messageID, () => {}, true);
-                        const res = await axios.get(`${apiUrl}/api/ytb/search?q=${encodeURIComponent(input)}`);
-                        const results = res.data.results.slice(0, 6);
-                        if (!results || results.length === 0) return api.sendMessage(getLang("noResult", input), threadID, messageID);
-
-                        let msg = "";
-                        const attachments = [];
-                        const cacheDir = path.join(__dirname, 'cache');
-                        if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
-
-                        for (let i = 0; i < results.length; i++) {
-                                msg += `${i + 1}. ${results[i].title}\nTime: ${results[i].time}\n\n`;
-                                const thumbPath = path.join(cacheDir, `thumb_${senderID}_${Date.now()}_${i}.jpg`);
-                                const thumbRes = await axios.get(results[i].thumbnail, { responseType: 'arraybuffer' });
-                                fs.writeFileSync(thumbPath, Buffer.from(thumbRes.data));
-                                attachments.push(fs.createReadStream(thumbPath));
-                        }
-
-                        return api.sendMessage({
-                                body: getLang("choose", msg),
-                                attachment: attachments
-                        }, threadID, (err, info) => {
-                                attachments.forEach(stream => { if (fs.existsSync(stream.path)) fs.unlinkSync(stream.path); });
-                                global.GoatBot.onReply.set(info.messageID, { commandName, author: senderID, results, type, apiUrl });
-                        }, messageID);
-
-                } catch (e) {
-                        return api.sendMessage(getLang("error", e.message), threadID, messageID);
-                }
-        },
-
-        onReply: async function ({ event, api, Reply, getLang }) {
-                const { results, type, apiUrl, author } = Reply;
-                if (event.senderID !== author) return;
-                
-                const choice = parseInt(event.body);
-                if (isNaN(choice) || choice <= 0 || choice > results.length) return api.unsendMessage(Reply.messageID);
-                
-                const videoID = results[choice - 1].id;
-                api.unsendMessage(Reply.messageID);
-                api.setMessageReaction("⌛", event.messageID, () => {}, true);
-               
-                if (type === 'info') return fetchInfo(api, event.threadID, event.messageID, videoID, apiUrl, getLang);
-                await handleDownload(api, event.threadID, event.messageID, videoID, type, apiUrl, getLang);
+async function get(p, params) {
+    const api = await getSIFAT();
+    for (let i = 0; i < 3; i++) {
+        try { return (await axios.get(api + p, { params, timeout: TMO, validateStatus: s => s < 300 })).data; }
+        catch (e) {
+            if (!RETRY_CODES.has(e.code) && !(e.response?.status >= 502)) throw e;
+            if (i === 2) throw e;
+            await sleep(600 * 2 ** i);
         }
-};
-
-async function handleDownload(api, threadID, messageID, videoID, type, apiUrl, getLang) {
-        const format = type === 'audio' ? 'mp3' : 'mp4';
-        const filePath = path.join(__dirname, 'cache', `yt_${Date.now()}.${format}`);
-
-        try {
-                const res = await axios.get(`${apiUrl}/api/ytb/get?id=${videoID}&type=${type}`);
-                const { title, downloadLink } = res.data.data;
-                
-                api.sendMessage(getLang("downloading", getLang(type), title), threadID, messageID);
-                
-                const response = await axios({ url: downloadLink, method: 'GET', responseType: 'stream' });
-                const writer = fs.createWriteStream(filePath);
-                response.data.pipe(writer);
-
-                writer.on('finish', () => {
-                        api.sendMessage({
-                                body: `✅ Successfully Downloaded: ${title}`,
-                                attachment: fs.createReadStream(filePath)
-                        }, threadID, () => { 
-                                api.setMessageReaction("✅", messageID, () => {}, true);
-                                if (fs.existsSync(filePath)) fs.unlinkSync(filePath); 
-                        }, messageID);
-                });
-        } catch (e) {
-                api.sendMessage(getLang("error", "Download failed baby! 🥺"), threadID, messageID);
-        }
+    }
 }
 
-async function fetchInfo(api, threadID, messageID, videoID, apiUrl, getLang) {
-        try {
-                const res = await axios.get(`${apiUrl}/api/ytb/details?id=${videoID}`);
-                const d = res.data.details;
-                const msg = getLang("info", 
-                        d.title, d.channel, d.subCount || 'N/A', d.duration_raw || d.duration, 
-                        d.view_count, d.like_count || 'N/A', d.upload_date || 'N/A', videoID, d.webpage_url
-                );
-
-                const thumbPath = path.join(__dirname, 'cache', `info_${videoID}.jpg`);
-                const thumbRes = await axios.get(d.thumbnail, { responseType: 'arraybuffer' });
-                fs.writeFileSync(thumbPath, Buffer.from(thumbRes.data));
-                
-                api.sendMessage({ body: msg, attachment: fs.createReadStream(thumbPath) }, 
-                        threadID, () => { 
-                                api.setMessageReaction("✅", messageID, () => {}, true);
-                                if (fs.existsSync(thumbPath)) fs.unlinkSync(thumbPath); 
-                        }, messageID);
-        } catch (e) {
-                api.sendMessage(getLang("error", "Could not find details."), threadID, messageID);
+async function stream(p, params) {
+    const api = await getSIFAT();
+    for (let i = 0; i < 3; i++) {
+        try { return await axios.get(api + p, { params, timeout: TMO, responseType: "stream", validateStatus: s => s < 300 }); }
+        catch (e) {
+            if (!RETRY_CODES.has(e.code) && !(e.response?.status >= 502)) throw e;
+            if (i === 2) throw e;
+            await sleep(600 * 2 ** i);
         }
-                  }
+    }
+}
+
+const safeId = s => String(s).replace(/[^A-Za-z0-9_-]/g, "");
+
+async function cached(id, tag, ext) {
+    if (!id) return null;
+    const p = path.join(DIR, `${safeId(id)}_${tag}.${ext}`);
+    try {
+        const st = await fs.stat(p);
+        if (Date.now() - st.mtimeMs > TTL || st.size < 1024) { fs.unlink(p).catch(() => {}); return null; }
+        fs.utimes(p, new Date(), new Date()).catch(() => {});
+        return { path: p, size: st.size };
+    } catch { return null; }
+}
+
+async function prune() {
+    try {
+        await fs.ensureDir(DIR);
+        const now = Date.now(), stats = [], files = await fs.readdir(DIR);
+        let total = 0;
+        for (const f of files) {
+            const fp = path.join(DIR, f);
+            try {
+                const st = await fs.stat(fp);
+                if (!st.isFile()) continue;
+                if (now - st.mtimeMs > TTL) { fs.unlink(fp).catch(() => {}); continue; }
+                stats.push({ fp, size: st.size, mtime: st.mtimeMs }); total += st.size;
+            } catch {}
+        }
+        if (total <= 500 * 1024 * 1024) return;
+        stats.sort((a, b) => a.mtime - b.mtime);
+        for (const s of stats) { if (total <= 500 * 1024 * 1024) break; fs.unlink(s.fp).catch(() => {}); total -= s.size; }
+    } catch {}
+}
+
+async function saveToDisk(apiPath, params, dest) {
+    await fs.ensureDir(DIR);
+    const res = await stream(apiPath, params), tmp = dest + ".part";
+    try {
+        await new Promise((ok, fail) => {
+            const w = fs.createWriteStream(tmp);
+            res.data.pipe(w); w.on("finish", ok); w.on("error", fail); res.data.on("error", fail);
+        });
+        await fs.move(tmp, dest, { overwrite: true });
+        return { path: dest, size: (await fs.stat(dest)).size };
+    } catch (e) { fs.unlink(tmp).catch(() => {}); throw e; }
+}
+
+const YT_RX  = /^(https?:\/\/)?(www\.|music\.|m\.)?(youtube\.com|youtu\.be)\//i;
+const YT_ID  = /(?:v=|\/shorts\/|\/embed\/|youtu\.be\/|\/v\/)([A-Za-z0-9_-]{11})/;
+const isYT   = s => YT_RX.test(String(s).trim());
+const ytId   = u => (u?.match(YT_ID) || [])[1] || null;
+const normYT = u => { const id = ytId(u); return id ? `https://www.youtube.com/watch?v=${id}` : u?.split("?si=")[0]; };
+
+const react = (ctx, e) => { try { ctx.api?.setMessageReaction?.(e, ctx.event.messageID, () => {}, true); } catch {} };
+const reply = (ctx, m) => ctx.reply(m).catch(() => null);
+
+module.exports = {
+    config: {
+        name: "ytb", aliases: ["yt", "youtube", "ytvideo"],
+        version: "4.1.0", author: "SIFAT", category: "media", role: 0, countDown: 0,
+        description: { en: "Search & download YouTube videos. Unlimited concurrent requests." },
+        guide: { en: "{pn} <query | URL> [-q 240|360|480|720|1080] [-list] [pick <n>]" },
+    },
+
+    onStart({ args, event, message, api }) {
+        return module.exports._run({ args, ctx: { reply: message.reply.bind(message), event, api } });
+    },
+
+    onReply({ event, Reply, message, api }) {
+        if (event.senderID !== Reply.author) return;
+        const n = parseInt(event.body?.trim());
+        if (isNaN(n) || n < 1 || n > Reply.results.length) return;
+        const ctx = { reply: message.reply.bind(message), event, api };
+        try { api.unsendMessage(Reply.messageID); } catch {}
+        global.GoatBot.onReply.delete(Reply.messageID);
+        react(ctx, "📥");
+        return module.exports._run({ args: [], ctx, _pick: Reply.results[n - 1], _quality: Reply.quality });
+    },
+
+    async _run({ args, ctx, _pick, _quality }) {
+        const uid = ctx.event?.senderID;
+        try {
+            let quality = _quality || DEF_Q, mode = "dl", query = "", rest = [];
+            if (!_pick) {
+                for (let i = 0; i < args.length; i++) {
+                    const a = args[i].toLowerCase();
+                    if (a === "-list" || a === "--list" || a === "list") { mode = "list"; continue; }
+                    if ((a === "-q" || a === "--quality") && QUALITIES.includes(args[i + 1])) { quality = args[++i]; continue; }
+                    rest.push(args[i]);
+                }
+                query = rest.join(" ").trim();
+            }
+
+            prune().catch(() => {});
+
+            if (mode === "list") {
+                if (!query) return;
+                react(ctx, "🔍");
+                try {
+                    await fs.ensureDir(DIR);
+                    const searchData = await get("/api/music/search", { q: query, limit: 6 });
+                    const results = searchData?.results || [];
+                    if (!results.length) { react(ctx, "❌"); return; }
+
+                    const imgPath = path.join(DIR, `ytb_${uid}_${Date.now()}.png`);
+                    const res = await stream("/api/video/search-image", { q: query, limit: 6, cmd: "Reply 1-6" });
+                    await new Promise((ok, fail) => {
+                        const w = fs.createWriteStream(imgPath);
+                        res.data.pipe(w); w.on("finish", ok); w.on("error", fail); res.data.on("error", fail);
+                    });
+
+                    react(ctx, "✅");
+                    const sent = await reply(ctx, { body: "", attachment: fs.createReadStream(imgPath) });
+                    setTimeout(() => fs.unlink(imgPath).catch(() => {}), 15_000);
+                    if (sent?.messageID) global.GoatBot.onReply.set(sent.messageID, {
+                        commandName: "ytb", messageID: sent.messageID, author: uid, results, quality,
+                    });
+                } catch (e) { react(ctx, "❌"); console.error("[ytb] list:", e.message); }
+                return;
+            }
+
+            let url;
+            if (_pick) {
+                url = normYT(_pick.url);
+            } else {
+                if (!query) { react(ctx, "❌"); return; }
+                if (isYT(query)) { url = normYT(query); react(ctx, "📥"); }
+                else {
+                    react(ctx, "🔍");
+                    const d = await get("/api/music/search", { q: query, limit: 1 });
+                    const top = d?.results?.[0];
+                    if (!top?.url) { react(ctx, "❌"); return; }
+                    url = normYT(top.url); react(ctx, "📥");
+                }
+            }
+
+            const vid    = ytId(url);
+            const reqIdx = QUALITIES.indexOf(quality);
+            const ladder = [quality, ...FALLBACK_Q.filter(q => QUALITIES.indexOf(q) < reqIdx)];
+
+            for (let i = 0; i < ladder.length; i++) {
+                const q    = ladder[i];
+                const tag  = `ytb_${q}`;
+                let result = await cached(vid, tag, "mp4");
+                if (!result) {
+                    const dest = vid ? path.join(DIR, `${safeId(vid)}_${tag}.mp4`) : path.join(DIR, `tmp_ytb_${uid}_${Date.now()}.mp4`);
+                    try { result = await saveToDisk("/api/music/video", { url, quality: q }, dest); }
+                    catch (e) { if (i === ladder.length - 1) throw e; continue; }
+                }
+                if (result.size < 1024) { fs.unlink(result.path).catch(() => {}); if (i === ladder.length - 1) { react(ctx, "❌"); return; } continue; }
+                if (result.size / 1048576 > MAXMB) { if (i === ladder.length - 1) { react(ctx, "❌"); return; } continue; }
+                react(ctx, "✅");
+                await reply(ctx, { body: "", attachment: fs.createReadStream(result.path) });
+                return;
+            }
+
+        } catch (e) { react(ctx, "❌"); console.error("[ytb]", e.message); }
+    },
+};
