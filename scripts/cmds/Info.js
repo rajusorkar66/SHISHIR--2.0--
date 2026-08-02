@@ -26,7 +26,7 @@ module.exports = {
     const Status = "Single";
 
     // SAFE CATBOX VIDEO LINK
-    const videoLink = "https://files.catbox.moe/a03xbs.mp4";
+    const videoLink = "https://i.imgur.com/9xBJ1zn.mp4";
 
     // BANGLADESH TIME
     const now = moment().tz("Asia/Dhaka");
