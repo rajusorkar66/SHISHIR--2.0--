@@ -1,109 +1,143 @@
-const fs = require("fs-extra");
-const moment = require("moment-timezone");
+ const fs   = require("fs-extra");
+const path = require("path");
+const https = require("https");
+const { utils } = global;
 
 module.exports = {
-  config: {
-    name: "prefix",
-    version: "2.4",
-    author: "𝐒𝐇𝐈𝐒𝐇𝐈𝐑",
-    countDown: 5,
-    role: 0,
-    description: "Change & show bot prefix",
-    category: "config"
-  },
+    config: {
+        name:        "prefix",
+        version:     "1.2",
+        author:      "Shishir",
+        countDown:   5,
+        role:        0,
+        description: "Change the bot's prefix or show current prefix.",
+        category:    "config",
+        guide: {
+            en:
+                "   {pn} <new>     → change prefix in this chat\n" +
+                "   {pn} <new> -g  → change global prefix (admin only)\n" +
+                "   {pn} reset     → reset to default\n" +
+                "   prefix         → show current prefix info",
+        },
+    },
 
-  langs: {
-    en: {
-      usage: "❌ Usage: prefix <newPrefix> | prefix reset | prefix <newPrefix> -g",
-      reset: "✅ Prefix reset successful!\n🔰 System prefix: %1",
-      onlyAdmin: "⛔ Only bot admin can change global prefix.",
-      confirmGlobal: "⚙️ Global prefix change requested.\n👉 React to confirm.",
-      confirmThisThread: "🛠️ Group prefix change requested.\n👉 React to confirm.",
-      successGlobal: "✅ Global prefix changed!\n🆕 New prefix: %1",
-      successThisThread: "✅ Group prefix changed!\n🆕 New prefix: %1"
-    }
-  },
+    langs: {
+        en: {
+            reset:           "✅ ᴘʀᴇꜰɪx ʀᴇꜱᴇᴛ ᴛᴏ ᴅᴇꜰᴀᴜʟᴛ: %1",
+            onlyAdmin:       "❌ ᴏɴʟʏ ᴀᴅᴍɪɴ ᴄᴀɴ ᴄʜᴀɴɢᴇ ɢʟᴏʙᴀʟ ᴘʀᴇꜰɪx",
+            confirmGlobal:   "⚠️ ʀᴇᴀᴄᴛ ᴛᴏ ᴄᴏɴꜰɪʀᴍ ɢʟᴏʙᴀʟ ᴘʀᴇꜰɪx → %1",
+            successGlobal:   "✅ ɢʟᴏʙᴀʟ ᴘʀᴇꜰɪx ᴄʜᴀɴɢᴇᴅ ᴛᴏ: %1",
+            successThread:   "✅ ᴘʀᴇꜰɪx ᴄʜᴀɴɢᴇᴅ ᴛᴏ: %1\n\nᴜꜱᴇ ᴛʜɪꜱ ᴘʀᴇꜰɪx ꜰᴏʀ ᴄᴏᴍᴍᴀɴᴅꜱ ɴᴏᴡ.",
+            myPrefix:
+                "〔 ʜᴇʏ %1 ᴅɪᴅ ʏᴏᴜ ᴀꜱᴋ ᴍʏ ᴘʀᴇꜰɪx ‽ 〕\n\n" +
+                "┣ ɢʟᴏʙᴀʟ ᴘʀᴇꜰɪx : %2\n" +
+                "┣ ᴛʜɪꜱ ᴄʜᴀᴛ     : %3\n" +
+                "┣ ᴄᴍᴅ ᴍᴇɴᴜ      : ʜᴇʟᴘ\n" +
+                "┣ ᴅᴇᴠ           : ꜱɪꜰᴜ ☠️\n\n" +
+                "〔 ɪ'ᴍ %4 ᴀᴛ ʏᴏᴜʀ ꜱᴇʀᴠɪᴄᴇ 🌊 〕",
+        },
+    },
 
-  onStart: async function ({ message, role, args, commandName, event, threadsData, getLang }) {
-    if (!args[0])
-      return message.reply(getLang("usage"));
+    onStart: async function ({ message, role, args, commandName, event, threadsData, getLang, api }) {
+        if (!args[0]) return message.SyntaxError();
 
-    // RESET
-    if (args[0] === "reset") {
-      await threadsData.set(event.threadID, null, "data.prefix");
-      return message.reply(getLang("reset", global.GoatBot.config.prefix));
-    }
 
-    const newPrefix = args[0];
-    const setGlobal = args[1] === "-g";
+        if (args[0].toLowerCase() === "reset") {
+            await threadsData.set(event.threadID, null, "data.prefix");
+            return message.reply(getLang("reset", global.GoatBot.config.prefix));
+        }
 
-    if (setGlobal && role < 2)
-      return message.reply(getLang("onlyAdmin"));
+        const newPrefix = args[0];
 
-    const confirmMsg = setGlobal
-      ? getLang("confirmGlobal")
-      : getLang("confirmThisThread");
 
-    message.reply(confirmMsg, (err, info) => {
-      if (err) return;
+        if (args[1] === "-g") {
+            if (role < 2) return message.reply(getLang("onlyAdmin"));
+            return message.reply(getLang("confirmGlobal", newPrefix), (err, info) => {
+                if (err) return;
+                global.GoatBot.onReaction.set(info.messageID, {
+                    commandName,
+                    author:     event.senderID,
+                    newPrefix,
+                    setGlobal:  true,
+                    messageID:  info.messageID,
+                });
+            });
+        }
 
-      global.GoatBot.onReaction.set(info.messageID, {
-        commandName,
-        author: event.senderID,
-        newPrefix,
-        setGlobal
-      });
-    });
-  },
 
-  onReaction: async function ({ event, message, threadsData, Reaction, getLang }) {
-    if (event.userID !== Reaction.author) return;
 
-    global.GoatBot.onReaction.delete(event.messageID);
+        await threadsData.set(event.threadID, newPrefix, "data.prefix");
+        return message.reply(getLang("successThread", newPrefix));
+    },
 
-    if (Reaction.setGlobal) {
-      global.GoatBot.config.prefix = Reaction.newPrefix;
+    onReaction: async function ({ message, threadsData, event, Reaction, getLang }) {
+        if (event.userID !== Reaction.author) return;
+        if (!Reaction.setGlobal) return;
 
-      fs.writeFileSync(
-        global.client.dirConfig,
-        JSON.stringify(global.GoatBot.config, null, 2)
-      );
+        const { newPrefix } = Reaction;
+        global.GoatBot.config.prefix = newPrefix;
+        try {
+            fs.writeFileSync(
+                global.client.dirConfig,
+                JSON.stringify(global.GoatBot.config, null, 2)
+            );
+        } catch (e) {
+            console.error("[prefix] failed to write config:", e.message);
+        }
+        return message.reply(getLang("successGlobal", newPrefix));
+    },
 
-      return message.reply(getLang("successGlobal", Reaction.newPrefix));
-    }
+    onChat: async function ({ event, message, getLang, usersData }) {
+        if (!event.body || event.body.toLowerCase() !== "prefix") return;
 
-    await threadsData.set(
-      event.threadID,
-      Reaction.newPrefix,
-      "data.prefix"
-    );
+        const userName     = await usersData.getName(event.senderID);
+        const botName      = global.GoatBot.config.nickNameBot || "Bot";
+        const globalPrefix = global.GoatBot.config.prefix;
+        const threadPrefix = utils.getPrefix(event.threadID) || globalPrefix;
 
-    return message.reply(getLang("successThisThread", Reaction.newPrefix));
-  },
+        const mediaURLs = [
+            "https://i.imgur.com/5a9DjQ6.gif",
+            "https://i.imgur.com/LC948jn.gif",
+        ];
 
-  onChat: async function ({ event, message, threadsData }) {
-    if (!event.body || event.body.toLowerCase() !== "prefix") return;
+        const cacheDir  = path.join(__dirname, "cache");
+        fs.ensureDirSync(cacheDir);
 
-    const systemPrefix = global.GoatBot.config.prefix;
-    const groupPrefix = global.utils.getPrefix(event.threadID);
+        const indexFile = path.join(cacheDir, "prefix_media_index.json");
+        let index = 0;
+        if (fs.existsSync(indexFile)) {
+            try { index = ((JSON.parse(fs.readFileSync(indexFile, "utf8")).index || 0) + 1) % mediaURLs.length; } catch {}
+        }
+        fs.writeFileSync(indexFile, JSON.stringify({ index }));
 
-    const threadInfo = await threadsData.get(event.threadID);
-    const groupName = threadInfo?.threadName || "Unknown Group";
+        const ext       = path.extname(mediaURLs[index]) || ".gif";
+        const mediaPath = path.join(cacheDir, `prefix_media_${index}${ext}`);
+        if (!fs.existsSync(mediaPath)) {
+            try { await downloadFile(mediaURLs[index], mediaPath); } catch {}
+        }
 
-    const time = moment().tz("Asia/Dhaka").format("hh:mm A");
-    const date = moment().tz("Asia/Dhaka").format("DD MMM YYYY");
-
-    const owner = global.GoatBot.config.adminName || "SHISHIR ";
-
-    return message.reply(
-`╭━━━〔 PREFIX 〕━━━╮
-┃ 🎀 GROUP : ${groupName}
-┃ ☠️ SYSTEM : 『 ${systemPrefix} 』
-┃ ☯️ GROUP  : 『 ${groupPrefix} 』
-┃ 💠 TIME   : ${time}
-┃ ⚠️ DATE   : ${date}
-┃ Ⓜ️ OWNER  : ${𝐒𝐇𝐈𝐒𝐇𝐈𝐑}
-╰━━━〔 ✨ ×͜× 〕━━━╯`
-    );
-  }
+        return message.reply({
+            body:       getLang("myPrefix", userName, globalPrefix, threadPrefix, botName),
+            attachment: fs.existsSync(mediaPath) ? [fs.createReadStream(mediaPath)] : [],
+        });
+    },
 };
+
+function downloadFile(url, dest) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest);
+        const req  = (u) => {
+            https.get(u, (res) => {
+                if (res.statusCode === 301 || res.statusCode === 302)
+                    return req(res.headers.location);
+                if (res.statusCode !== 200) {
+                    fs.unlink(dest, () => {});
+                    return reject(new Error(`HTTP ${res.statusCode}`));
+                }
+                res.pipe(file);
+                file.on("finish", () => file.close(resolve));
+            }).on("error", (e) => { fs.unlink(dest, () => {}); reject(e); });
+        };
+        req(url);
+    });
+          }
