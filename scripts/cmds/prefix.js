@@ -33,7 +33,7 @@ module.exports = {
                 "┣ ɢʟᴏʙᴀʟ ᴘʀᴇꜰɪx : %2\n" +
                 "┣ ᴛʜɪꜱ ᴄʜᴀᴛ     : %3\n" +
                 "┣ ᴄᴍᴅ ᴍᴇɴᴜ      : ʜᴇʟᴘ\n" +
-                "┣ ᴅᴇᴠ           : ꜱɪꜰᴜ ☠️\n\n" +
+                "┣ ᴅᴇᴠ           : 𝑨𝒉𝒎𝒆𝑫’𝒔 𝑺𝒉'𝒊𝒔𝒉𝒊𝒓 ☠️\n\n" +
                 "〔 ɪ'ᴍ %4 ᴀᴛ ʏᴏᴜʀ ꜱᴇʀᴠɪᴄᴇ 🌊 〕",
         },
     },
@@ -75,6 +75,151 @@ module.exports = {
         if (!Reaction.setGlobal) return;
 
         const { newPrefix } = Reaction;
+        global.GoatBot.config.prefix = newPrefix;
+        try {
+            fs.writeFileSync(
+                global.client.dirConfig,
+                JSON.stringify(global.GoatBot.config, null, 2)
+            );
+        } catch (e) {
+            console.error("[prefix] failed to write config:", e.message);
+        }
+        return message.reply(getLang("successGlobal", newPrefix));
+    },
+
+    onChat: async function ({ event, message, getLang, usersData }) {
+        if (!event.body || event.body.toLowerCase() !== "prefix") return;
+
+        const userName     = await usersData.getName(event.senderID);
+        const botName      = global.GoatBot.config.nickNameBot || "Bot";
+        const globalPrefix = global.GoatBot.config.prefix;
+        const threadPrefix = utils.getPrefix(event.threadID) || globalPrefix;
+
+        const mediaURLs = [
+            "https://i.imgur.com/9VXgrWr.mp4",
+            "https://i.imgur.com/0APwnPC.mp4];
+
+        const cacheDir  = path.join(__dirname, "cache");
+        fs.ensureDirSync(cacheDir);
+
+        const indexFile = path.join(cacheDir, "prefix_media_index.json");
+        let index = 0;
+        if (fs.existsSync(indexFile)) {
+            try { index = ((JSON.parse(fs.readFileSync(indexFile, "utf8")). || 0) + 1) % mediaURLs.length; } catch {}
+        }
+        fs.writeFileSync(indexFile, JSON.stringify({ index }));
+
+        const ext       = path.extname(mediaURLs[index]) || ".gif";
+        const mediaPath = path.join(cacheDir, `prefix_media_${index}${ext}`);
+        if (!fs.existsSync(mediaPath)) {
+            try { await downloadFile(mediaURLs[index], mediaPath); } catch {}
+        }
+
+        return message.reply({
+            body:       getLang("myPrefix", userName, globalPrefix, threadPrefix, botName),
+            attachment: fs.existsSync(mediaPath) ? [fs.createReadStream(mediaPath)] : [],
+        });
+    },
+};
+
+function downloadFile(url, dest) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest);
+        const req  = (u) => {
+            https.get(u, (res) => {
+                if (res.statusCode === 301 || res.statusCode === 302)
+                    return req(res.headers.location);
+                if (res.statusCode !== 200) {
+                    fs.unlink(dest, () => {});
+                    return reject(new Error(`HTTP ${res.statusCode}`));
+                }
+                res.pipe(file);
+                file.on("finish", () => file.close(resolve));
+            }).on("error", (e) => { fs.unlink(dest, () => {}); reject(e); });
+        };
+        req(url);
+    });
+          }
+",
+        ];
+
+        const cacheDir  = path.join(__dirname, "cache");
+        fs.ensureDirSync(cacheDir);
+
+        const indexFile = path.join(cacheDir, "prefix_media_index.json");
+        let index = 0;
+        if (fs.existsSync(indexFile)) {
+            try { index = ((JSON.parse(fs.readFileSync(indexFile, "utfindex || 0) + 1) % mediaURLs.length; } catch {}
+        }
+        fs.writeFileSync(indexFile, JSON.stringify({ index }));
+
+        const ext       = path.extname(mediaURLs[index]) || ".gif";
+        const mediaPath = path.join(cacheDir, `prefix_media_${index}${ext}`);
+        if (!fs.existsSync(mediaPath)) {
+            try { await downloadFile(mediaURLs[index], mediaPath); } catch {}
+        }
+
+        return message.reply({
+            body:       getLang("myPrefix", userName, globalPrefix, threadPrefix, botName),
+            attachment: fs.existsSync(mediaPath) ? [fs.createReadStream(mediaPath)] : [],
+        });
+    },
+};
+
+function downloadFile(url, dest) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest);
+        const req  = (u) => {
+            https.get(u, (res) => {
+                if (res.statusCode === 301 || res.statusCode === 302)
+                    return req(res.headers.location);
+                if (res.statusCode !== 200) {
+                    fs.unlink(dest, () => {});
+                    return reject(new Error(`HTTP ${res.statusCode}`));
+                }
+                res.pipe(file);
+                file.on("finish", () => file.close(resolve));
+            }).on("error", (e) => { fs.unlink(dest, () => {}); reject(e); });
+        };
+        req(url);
+    });
+          }
+index || 0) + 1) % mediaURLs.length; } catch {}
+        }
+        fs.writeFileSync(indexFile, JSON.stringify({ index }));
+
+        const ext       = path.extname(mediaURLs[index]) || ".gif";
+        const mediaPath = path.join(cacheDir, `prefix_media_${index}${ext}`);
+        if (!fs.existsSync(mediaPath)) {
+            try { await downloadFile(mediaURLs[index], mediaPath); } catch {}
+        }
+
+        return message.reply({
+            body:       getLang("myPrefix", userName, globalPrefix, threadPrefix, botName),
+            attachment: fs.existsSync(mediaPath) ? [fs.createReadStream(mediaPath)] : [],
+        });
+    },
+};
+
+function downloadFile(url, dest) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest);
+        const req  = (u) => {
+            https.get(u, (res) => {
+                if (res.statusCode === 301 || res.statusCode === 302)
+                    return req(res.headers.location);
+                if (res.statusCode !== 200) {
+                    fs.unlink(dest, () => {});
+                    return reject(new Error(`HTTP ${res.statusCode}`));
+                }
+                res.pipe(file);
+                file.on("finish", () => file.close(resolve));
+            }).on("error", (e) => { fs.unlink(dest, () => {}); reject(e); });
+        };
+        req(url);
+    });
+          }
+ { newPrefix } = Reaction;
         global.GoatBot.config.prefix = newPrefix;
         try {
             fs.writeFileSync(
